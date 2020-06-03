@@ -7,7 +7,8 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "dev": "react-native run-ios --device \"Trinh's iPhone\""
   },
   "dependencies": {
     "react": "16.11.0",
