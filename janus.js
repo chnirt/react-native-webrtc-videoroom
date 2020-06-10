@@ -1104,6 +1104,7 @@ export function Janus(gatewayCallbacks) {
 
   // Private method to send a message
   function sendMessage(handleId, callbacks) {
+    console.log('sendMessage -> sendMessage');
     callbacks = callbacks || {};
     callbacks.success =
       typeof callbacks.success == 'function' ? callbacks.success : Janus.noop;
@@ -1214,6 +1215,7 @@ export function Janus(gatewayCallbacks) {
 
   // Private method to send a trickle candidate
   function sendTrickleCandidate(handleId, candidate) {
+    console.log('sendTrickleCandidate -> sendTrickleCandidate');
     if (!connected) {
       Janus.warn('Is the gateway down? (connected=false)');
       return;
@@ -1259,6 +1261,7 @@ export function Janus(gatewayCallbacks) {
 
   // Private method to send a data channel message
   function sendData(handleId, callbacks) {
+    console.log('sendData -> sendData');
     callbacks = callbacks || {};
     callbacks.success =
       typeof callbacks.success == 'function' ? callbacks.success : Janus.noop;
@@ -1289,6 +1292,7 @@ export function Janus(gatewayCallbacks) {
 
   // Private method to send a DTMF tone
   function sendDtmf(handleId, callbacks) {
+    console.log('sendDtmf -> sendDtmf');
     callbacks = callbacks || {};
     callbacks.success =
       typeof callbacks.success == 'function' ? callbacks.success : Janus.noop;
@@ -1355,6 +1359,7 @@ export function Janus(gatewayCallbacks) {
 
   // Private method to destroy a plugin handle
   function destroyHandle(handleId, callbacks, syncRequest) {
+    console.log('destroyHandle -> destroyHandle');
     syncRequest = false;
     Janus.log('Destroying handle ' + handleId + ' (sync=' + syncRequest + ')');
     callbacks = callbacks || {};
@@ -1410,10 +1415,12 @@ export function Janus(gatewayCallbacks) {
 
   // WebRTC stuff
   function changeLocalCamera(handleId) {
+    console.log('changeLocalCamera -> changeLocalCamera');
     localstream._tracks[1]._switchCamera();
   }
 
   function streamsDone(handleId, jsep, media, callbacks, stream) {
+    console.log('streamsDone -> streamsDone');
     var pluginHandle = pluginHandles[handleId];
     if (
       pluginHandle === null ||
@@ -1555,6 +1562,7 @@ export function Janus(gatewayCallbacks) {
   }
 
   function prepareWebrtc(handleId, callbacks) {
+    console.log('prepareWebrtc -> prepareWebrtc');
     callbacks = callbacks || {};
     callbacks.success =
       typeof callbacks.success == 'function' ? callbacks.success : Janus.noop;
@@ -1563,6 +1571,7 @@ export function Janus(gatewayCallbacks) {
     var jsep = callbacks.jsep;
     var media = callbacks.media;
     var pluginHandle = pluginHandles[handleId];
+    console.log('prepareWebrtc -> pluginHandles', pluginHandles);
     if (
       pluginHandle === null ||
       pluginHandle === undefined ||
@@ -1574,13 +1583,21 @@ export function Janus(gatewayCallbacks) {
       return;
     }
     var config = pluginHandle.webrtcStuff;
+    console.log(
+      'prepareWebrtc -> pluginHandle.webrtcStuff',
+      pluginHandle.webrtcStuff.bitrate,
+    );
     // Are we updating a session?
+    console.log('🚝🚝🚝🚝🚝');
+    console.log('config', config);
+
     if (config.pc !== undefined && config.pc !== null) {
       Janus.log('Updating existing media session');
       // Create offer/answer now
       if (jsep === null || jsep === undefined) {
         createOffer(handleId, media, callbacks);
       } else {
+        console.log('🎯🎯🎯🎯🎯');
         config.pc.setRemoteDescription(
           new RTCSessionDescription(jsep),
           function () {
@@ -1871,7 +1888,7 @@ export function Janus(gatewayCallbacks) {
             .getUserMedia({
               audio: true,
               video: {
-                facingMode: false ? 'user' : 'environment',
+                facingMode: camera_front ? 'user' : 'environment',
               },
             })
             .then((stream) => {
@@ -1892,6 +1909,7 @@ export function Janus(gatewayCallbacks) {
   }
 
   function prepareWebrtcPeer(handleId, callbacks) {
+    console.log('prepareWebrtcPeer -> prepareWebrtcPeer');
     callbacks = callbacks || {};
     callbacks.success =
       typeof callbacks.success == 'function' ? callbacks.success : Janus.noop;
@@ -1934,6 +1952,7 @@ export function Janus(gatewayCallbacks) {
   }
 
   function createOffer(handleId, media, callbacks) {
+    console.log('createOffer -> createOffer');
     callbacks = callbacks || {};
     callbacks.success =
       typeof callbacks.success == 'function' ? callbacks.success : Janus.noop;
@@ -2003,6 +2022,7 @@ export function Janus(gatewayCallbacks) {
   }
 
   function createAnswer(handleId, media, callbacks) {
+    console.log('createAnswer -> createAnswer');
     callbacks = callbacks || {};
     callbacks.success =
       typeof callbacks.success == 'function' ? callbacks.success : Janus.noop;
@@ -2077,6 +2097,7 @@ export function Janus(gatewayCallbacks) {
   }
 
   function sendSDP(handleId, callbacks) {
+    console.log('sendSDP -> sendSDP');
     callbacks = callbacks || {};
     callbacks.success =
       typeof callbacks.success == 'function' ? callbacks.success : Janus.noop;
@@ -2113,6 +2134,7 @@ export function Janus(gatewayCallbacks) {
   }
 
   function getVolume(handleId) {
+    console.log('getVolume -> getVolume');
     var pluginHandle = pluginHandles[handleId];
     if (
       pluginHandle === null ||
@@ -2155,6 +2177,7 @@ export function Janus(gatewayCallbacks) {
   }
 
   function isMuted(handleId, video) {
+    console.log('isMuted -> isMuted');
     var pluginHandle = pluginHandles[handleId];
     if (
       pluginHandle === null ||
@@ -2200,6 +2223,7 @@ export function Janus(gatewayCallbacks) {
   }
 
   function mute(handleId, video, mute) {
+    console.log('mute -> mute');
     var pluginHandle = pluginHandles[handleId];
     if (
       pluginHandle === null ||
@@ -2247,6 +2271,7 @@ export function Janus(gatewayCallbacks) {
   }
 
   function getBitrate(handleId) {
+    console.log('getBitrate -> getBitrate');
     var pluginHandle = pluginHandles[handleId];
     if (
       pluginHandle === null ||
